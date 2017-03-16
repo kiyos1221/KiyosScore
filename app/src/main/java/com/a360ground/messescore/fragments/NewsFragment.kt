@@ -64,10 +64,6 @@ class NewsFragment : Fragment(), ILoadingDone {
 
         var news = realm?.where(News::class.java)?.findAllAsync()
 
-        news?.addChangeListener { realmResults->
-            Toast.makeText(activity, "Changer Listened", Toast.LENGTH_SHORT).show()
-        }
-
         loadData()
 
         return view

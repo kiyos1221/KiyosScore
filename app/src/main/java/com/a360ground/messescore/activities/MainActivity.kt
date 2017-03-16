@@ -42,34 +42,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .setAction("Action", null).show()
         }
 
-        var networkRequest = NetworkRequest()
-
-        Realm.init(this)
-
-        val retrofit = networkRequest.getRetrofit()
-
-        val apiTopNews = retrofit.create(ApiTopNews::class.java)
-
-        val callAllNews = apiTopNews.getAllNews()
-
-           callAllNews.enqueue(object : Callback<List<News>> {
-                override fun onResponse(call: Call<List<News>>, response: Response<List<News>>) {
-
-                    CacheScoreManager.insertNews(response.body())
-
-                    var intent = Intent("content_loaded")
-
-                    intent.putExtra("Loaded",true)
-
-                    LocalBroadcastManager.getInstance(this@MainActivity).sendBroadcast(intent)
-
-                }
-
-                override fun onFailure(call: Call<List<News>>, t: Throwable) {
-                    Toast.makeText(baseContext, t.printStackTrace().toString(), Toast.LENGTH_LONG).show()
-                }
-            })
-
         val drawer = findViewById(R.id.drawer_layout) as DrawerLayout
 
         val toggle = ActionBarDrawerToggle(
@@ -81,6 +53,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navigationView.setNavigationItemSelectedListener(this)
 
         val tabLayout = findViewById(R.id.tab_layout) as TabLayout
+
+        tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
 
         val mainActivityViewpager = findViewById(R.id.main_activity_viewpager) as ViewPager
 
